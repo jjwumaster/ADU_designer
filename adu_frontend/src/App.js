@@ -5,7 +5,6 @@ import { Route, Switch } from "react-router-dom"
 import { connect } from "react-redux"
 import Navbar from "./Navbar"
 import Results from "./Results"
-import Suggestions from "./Suggestions"
 
 const App = () => {
   return (
@@ -32,7 +31,6 @@ const App = () => {
             }}
           />
         </Switch>
-        <Suggestions />
       </div>
     </div>
   )
