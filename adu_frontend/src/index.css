@@ -1,5 +1,5 @@
-body {
+#content {
   margin: 0;
-  padding: 0;
+  padding-top: 100px;
   font-family: sans-serif;
 }

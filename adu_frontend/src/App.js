@@ -1,21 +1,47 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import Login from "./Login"
+import Signup from "./Signup"
+import { Route, Switch } from "react-router-dom"
+import { connect } from "react-redux"
+import Navbar from "./Navbar"
+import Results from "./Results"
+import Suggestions from "./Suggestions"
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+const App = () => {
+  return (
+    <div className="App">
+      <Navbar />
+      <div className="ui container" id="content">
+        <Switch>
+          <Route
+            path="/login"
+            render={routerProps => {
+              return <Login {...routerProps} />
+            }}
+          />
+          <Route
+            path="/signup"
+            render={routerProps => {
+              return <Signup />
+            }}
+          />
+          <Route
+            path="/results"
+            render={routerProps => {
+              return <Results />
+            }}
+          />
+          <Suggestions />
+        </Switch>
       </div>
-    );
+    </div>
+  )
+}
+
+const mapStateToProps = state => {
+  return {
+    currentUser: state.auth
   }
 }
 
-export default App;
+export default connect(mapStateToProps, null)(App)
