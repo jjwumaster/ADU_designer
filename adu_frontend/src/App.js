@@ -31,8 +31,8 @@ const App = () => {
               return <Results />
             }}
           />
-          <Suggestions />
         </Switch>
+        <Suggestions />
       </div>
     </div>
   )
