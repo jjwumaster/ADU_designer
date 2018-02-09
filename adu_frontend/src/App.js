@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom"
 import { connect } from "react-redux"
 import Navbar from "./Navbar"
 import Results from "./Results"
+import ArcMap from "./ArcMap"
 
 const App = () => {
   return (
@@ -28,6 +29,12 @@ const App = () => {
             path="/results"
             render={routerProps => {
               return <Results />
+            }}
+          />
+          <Route
+            path="/map"
+            render={routerProps => {
+              return <ArcMap />
             }}
           />
         </Switch>
