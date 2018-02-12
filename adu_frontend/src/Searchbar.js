@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom"
 import api from "./services/api"
 import debounce from "lodash/debounce"
 import * as actions from "./actions"
+import rules from "./helpers/rules"
 
 class Searchbar extends React.Component {
   constructor() {
@@ -16,32 +17,56 @@ class Searchbar extends React.Component {
   }
 
   handleChange = e => {
-    this.setState({ query: e.target.value })
+    this.setState({ query: e.target.value, error: "" })
     this.props.loadingSuggestions()
   }
 
   handleResultSelect = (e, result) => {
     if (result.result.description !== "address") {
-      alert("this is not an address") // potentially convert to state or Semantic Popup
-      // this.setState({error: "Not an address!"})
+      // alert("this is not an address") // potentially convert to state or Semantic Popup
+      this.setState({
+        query: result.result.title,
+        error: "Not a valid address!"
+      })
     } else {
       this.getData(result.result.id)
+      this.setState({ query: result.result.title })
+      // add another horizontal loading bar to show API is loading--Semantic Progress
+      this.props.startLoading()
+      this.props.history.push("/results")
     }
-    this.setState({ query: result.result.title })
-    // add another horizontal loading bar to show API is loading--Semantic Progress
-    this.props.history.push("/results")
   }
 
   getData = id => {
-    api.portland
-      .query(id, "detail")
-      .then(r => this.props.setProperty("detail", r))
-    // api.portland
-    //   .query(id, "assessor")
-    //   .then(r => this.props.setProperty("assessor", r))
-    api.portland
-      .query(id, "assessor")
-      .then(r => this.props.setProperty("assessor", r))
+    Promise.all([
+      api.portland.query(id, "detail"),
+      api.portland.query(id, "assessor")
+    ]).then(values => {
+      this.props.doneLoading()
+      this.props.setProperty("detail", values[0])
+      this.props.setProperty("assessor", values[1])
+      this.setMetrics(this.props.property.detail, this.props.property.assessor)
+    })
+  }
+
+  setMetrics = (d, a) => {
+    let detachedCoverage = rules.detachedCoverage(a.improvements.details)
+    let totalCoverage = rules.totalCoverage(a.improvements.details)
+    let livingArea = rules.livingArea(a.improvements.details)
+    let lotSize = a.general.total_land_area_sqft
+    let propertyType = a.improvements.improvement_type
+    let zone = d.zoning[0].code // iterate??
+
+    let metrics = {
+      zone,
+      propertyType,
+      lotSize,
+      livingArea,
+      detachedCoverage,
+      totalCoverage
+    }
+
+    this.props.setMetrics(metrics)
   }
 
   hitApi = debounce(() => {
@@ -64,6 +89,7 @@ class Searchbar extends React.Component {
           onKeyUp={this.hitApi}
           value={this.state.query}
         />
+        {this.state.error ? this.state.error : null}
       </div>
     )
   }

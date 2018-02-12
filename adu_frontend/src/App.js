@@ -6,12 +6,18 @@ import { connect } from "react-redux"
 import Navbar from "./Navbar"
 import Results from "./Results"
 import ArcMap from "./ArcMap"
+import { Progress } from "semantic-ui-react"
 
-const App = () => {
+const App = props => {
   return (
     <div className="App">
       <Navbar />
       <div className="ui container" id="content">
+        <Progress
+          percent={props.loadingBar.loading ? 5 : 100}
+          autoSuccess
+          size="tiny"
+        />
         <Switch>
           <Route
             path="/login"
@@ -45,7 +51,8 @@ const App = () => {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.auth
+    currentUser: state.auth,
+    loadingBar: state.loadingBar
   }
 }
 

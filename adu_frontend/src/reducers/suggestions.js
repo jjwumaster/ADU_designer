@@ -1,19 +1,12 @@
-export default (state = { isLoading: false, list: [] }, action) => {
-  function proper(str) {
-    let dir = ["NE", "SE", "NW", "SW"]
-    return str.replace(/\w\S*/g, function(txt) {
-      return dir.includes(txt)
-        ? txt
-        : txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    })
-  }
+import helpers from "../helpers/helpers"
 
+export default (state = { isLoading: false, list: [] }, action) => {
   switch (action.type) {
     case "SET_SUGGESTIONS":
       let suggestions = []
       if (action.suggestions) {
         suggestions = action.suggestions.map(suggestion => ({
-          title: proper(suggestion.address),
+          title: helpers.format.proper(suggestion.address),
           id: suggestion.attributes.property_id,
           description: suggestion.attributes.type
         }))

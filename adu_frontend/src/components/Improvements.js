@@ -1,25 +1,16 @@
 import React from "react"
-import { Table } from "semantic-ui-react"
+// import { Table } from "semantic-ui-react"
+import helpers from "../helpers/helpers"
 
 export default props => {
   let { a } = props
 
   let i = a.improvements
 
-  const detachedStructures = ["DET GAR", "CARPORT"]
-  const livingArea = [
-    "MAIN",
-    "FIN ATTIC",
-    "FIN BSMT",
-    "FIN SECOND",
-    "FIN THIRD",
-    "FIN LOWER LEVEL"
-  ]
-
   return (
     <div>
       <h2>Improvements</h2>
-      Type: {i.improvement_type}
+      Type: {helpers.format.proper(i.improvement_type)}
       <table>
         <tbody>
           <tr>
