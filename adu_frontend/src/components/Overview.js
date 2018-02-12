@@ -10,8 +10,8 @@ export default props => {
   let general = a.general
   let owner = a.owner
 
-  // {general.latitude}
-  // {general.longitude}
+  console.log("Lat:", general.latitude, "Long:", general.longitude)
+  console.log(general)
 
   return (
     <div>

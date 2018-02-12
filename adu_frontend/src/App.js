@@ -5,7 +5,8 @@ import { Route, Switch } from "react-router-dom"
 import { connect } from "react-redux"
 import Navbar from "./Navbar"
 import Results from "./Results"
-import ArcMap from "./ArcMap"
+// import ArcMap from "./ArcMap"
+import Map from "./GoogleMap"
 import { Progress } from "semantic-ui-react"
 
 const App = props => {
@@ -40,7 +41,11 @@ const App = props => {
           <Route
             path="/map"
             render={routerProps => {
-              return <ArcMap />
+              return (
+                <div style={{ width: "100%", height: "400px" }}>
+                  <Map />
+                </div>
+              )
             }}
           />
         </Switch>

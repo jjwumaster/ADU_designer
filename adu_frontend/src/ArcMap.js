@@ -47,56 +47,141 @@
 //
 // export default ArcMap
 
-import * as React from "react"
-import { dojoRequire } from "esri-loader"
-import EsriLoader from "esri-loader-react"
-export interface Props {
-  onMapViewCreated?: mapView => void;
-}
+import React from "react"
+// import { dojoRequire } from "esri-loader"
+import EsriLoaderReact from "esri-loader-react"
+import "./ArcMap.css"
 
-interface State {
-  loaded?: boolean;
-}
-export default class ArcMap extends React.Component<Props> {
-  mapContainer
-  mapView
-  constructor(props) {
-    super(props)
-    this.state = {
-      loaded: false
-    }
-  }
-  ready() {
-    this.setState({
-      loaded: true
-    })
-  }
-  createMap = () => {
-    dojoRequire(["esri/Map", "esri/views/MapView"], (Map, MapView) => {
-      this.mapView = new MapView({
-        container: this.mapContainer,
-        map: new Map({ basemap: "dark-gray" })
-      })
-      this.props.onMapViewCreated(this.mapView)
-    })
-  }
-  componentDidMount() {
-    this.createMap()
-  }
+class ArcMap extends React.PureComponent {
   render() {
-    // you can omit options and it defaults to the latest version
     const options = {
-      url: "https://js.arcgis.com/4.5/"
-      // url: '/arcgis_js_api/init.js'
+      url: "https://js.arcgis.com/4.6"
     }
+
     return (
-      <div style={{ height: "100%" }}>
-        <EsriLoader options={options} ready={this.ready.bind(this)} />
-        <div
-          style={{ height: "100%" }}
-          ref={node => (this.mapContainer = node)}
+      <div>
+        <EsriLoaderReact
+          options={options}
+          modulesToLoad={[
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/views/2d/draw/Draw",
+            "esri/Graphic",
+            "esri/geometry/Polygon",
+            "esri/geometry/geometryEngine",
+            "dojo/domReady!"
+          ]}
+          onReady={({
+            loadedModules: [
+              Map,
+              MapView,
+              Draw,
+              Polygon,
+              geometryEngine,
+              Graphic
+            ],
+            containerNode
+          }) => {
+            const map = new Map({
+              basemap: "hybrid"
+            })
+
+            const view = new MapView({
+              container: containerNode,
+              center: [-122.6765, 45.5231],
+              zoom: 13,
+              map: map
+            })
+
+            view.ui.add("draw-polygon", "top-left")
+
+            view.when(e => {
+              let draw = new Draw({ view: view })
+
+              let drawPolygonButton = document.getElementById("draw-polygon")
+              drawPolygonButton.addEventListener("click", () => {
+                // view.graphics.removeAll()
+                enableCreatePolygon(draw, view)
+              })
+            })
+
+            const enableCreatePolygon = (draw, view) => {
+              let action = draw.create("polygon")
+              view.focus()
+              action.on("vertex-add", drawPolygon)
+              action.on("cursor-update", console.log("cursor updated"))
+              console.log("enableCreatePolygon")
+            }
+
+            const drawPolygon = evt => {
+              let vertices = evt.vertices
+              let polygon = createPolygon(vertices)
+              let graphic = createGraphic(polygon)
+              let area = geometryEngine.geodesicArea(
+                geometryEngine.simplify(polygon),
+                "acres"
+              )
+              view.graphics.add(graphic)
+            }
+
+            const createPolygon = vertices => {
+              return new Polygon({
+                rings: vertices,
+                spatialReference: view.spatialReference
+              })
+            }
+
+            const createGraphic = polygon => {
+              let graphic = new Graphic({
+                geometry: polygon,
+                symbol: {
+                  type: "simple-fill",
+                  color: [178, 102, 234, 0.8],
+                  style: "solid",
+                  outline: {
+                    color: [255, 255, 255],
+                    width: 2
+                  }
+                }
+              })
+
+              return graphic
+            }
+
+            const labelAreas = (geom, area) => {
+              var graphic = new Graphic({
+                geometry: geom.centroid,
+                symbol: {
+                  type: "text",
+                  color: "white",
+                  haloColor: "black",
+                  haloSize: "1px",
+                  text: area.toFixed(2) + " acres",
+                  xoffset: 3,
+                  yoffset: 3,
+                  font: {
+                    // autocast as Font
+                    size: 14,
+                    family: "sans-serif"
+                  }
+                }
+              })
+              view.graphics.add(graphic)
+            }
+          }}
         />
+        <div id="viewDiv">
+          <div
+            id="draw-polygon"
+            className="esri-widget-button esri-widget esri-interactive"
+            title="Draw and measure polygon"
+          >
+            <span className="esri-icon-polygon" />
+          </div>
+        </div>
       </div>
     )
   }
 }
+
+export default ArcMap
