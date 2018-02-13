@@ -9,8 +9,8 @@ class ApiQuery < ApplicationRecord
       response = RestClient.get("#{PORTLAND_ROOT}/detail?detail_type=property&sections=*&detail_id=#{id}&#{API_KEY}")
     when "assessor"
       response = RestClient.get("#{PORTLAND_ROOT}/detail?detail_type=assessor&sections=*&detail_id=#{id}&#{API_KEY}")
-    # when "assessor"
-    #   response = RestClient.get("#{PORTLAND_ROOT}/assessor?property_id=#{id}&#{API_KEY}")
+    when "latlong"
+      response = RestClient.get("#{PORTLAND_ROOT}/assessor?property_id=#{id}&#{API_KEY}")
     else
       puts "whut"
     end

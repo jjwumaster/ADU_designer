@@ -3,7 +3,7 @@ const auth = (state = { currentUser: {} }, action) => {
     case "SET_CURRENT_USER":
       return { currentUser: action.user }
     case "LOGOUT":
-      return { auth: { currentUser: {} } }
+      return { currentUser: {} }
     default:
       return state
   }

@@ -1,10 +1,10 @@
 import React from "react"
 // import { Table } from "semantic-ui-react"
 import helpers from "../helpers/helpers"
+import { connect } from "react-redux"
 
-export default props => {
-  let { a } = props
-
+const Improvements = props => {
+  let a = props.property.assessor
   let i = a.improvements
 
   return (
@@ -30,3 +30,9 @@ export default props => {
     </div>
   )
 }
+
+const mapStateToProps = state => ({
+  property: state.property
+})
+
+export default connect(mapStateToProps, null)(Improvements)

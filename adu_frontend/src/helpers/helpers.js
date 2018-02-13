@@ -82,10 +82,22 @@ const ownerParse = str => {
   })
 }
 
+const convertArea = (area, toType) => {
+  switch (toType) {
+    case "acres":
+      return area * (1 / 4046.86)
+    case "sq ft":
+      return area * 10.7639
+    default:
+      return area
+  }
+}
+
 export default {
   format: {
     proper,
     formatNum,
     ownerParse
-  }
+  },
+  convertArea
 }

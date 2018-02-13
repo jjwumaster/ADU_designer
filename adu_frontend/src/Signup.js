@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import api from "./services/api"
 import * as actions from "./actions"
 import { connect } from "react-redux"
+import { Form } from "semantic-ui-react"
 
 class Signup extends Component {
   constructor() {
@@ -53,29 +54,35 @@ class Signup extends Component {
     return (
       <div>
         <h2>Signup</h2>
-        <form onSubmit={this.handleSignup}>
-          <label htmlFor="email">E-mail</label>
-          <input
+        <Form onSubmit={this.handleSignup}>
+          <Form.Input
+            fluid
+            label="E-mail"
             onChange={this.handleChange}
             name="email"
             type="email"
             id="email"
           />
-          <label htmlFor="password">Password</label>
-          <input
+
+          <Form.Input
+            fluid
+            label="Password"
             onChange={this.handleChange}
             name="password"
             type="password"
             id="password"
           />
-          <input
+
+          <Form.Input
+            fluid
+            label="Confirm Password"
             onChange={this.handleChange}
             name="password_confirmation"
             type="password"
             id="password_confirmation"
           />
-          <input type="submit" />
-        </form>
+          <Form.Button>Submit</Form.Button>
+        </Form>
         {this.state.errors === []
           ? null
           : this.state.errors.map(error => <h1>{error}</h1>)}

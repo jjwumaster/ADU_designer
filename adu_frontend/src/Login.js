@@ -1,8 +1,9 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import * as actions from "./actions"
 import api from "./services/api"
+import { Form } from "semantic-ui-react"
 
 class Login extends Component {
   constructor(props) {
@@ -48,24 +49,29 @@ class Login extends Component {
     console.log("this is Login state", this.state)
     return (
       <div>
+        <div style={{ textAlign: "center" }}>
+          New to us? Sign up <Link to="/signup">here</Link>
+        </div>
         <h2>Login</h2>
-        <form onSubmit={this.handleLogin}>
-          <label htmlFor="email">E-mail</label>
-          <input
+        <Form onSubmit={this.handleLogin}>
+          <Form.Input
+            fluid
+            label="E-mail"
             onChange={this.handleChange}
             name="email"
             type="email"
             id="emailLogin"
           />
-          <label htmlFor="password">Password</label>
-          <input
+          <Form.Input
+            fluid
+            label="Password"
             onChange={this.handleChange}
             name="password"
             type="password"
             id="passwordLogin"
           />
-          <input type="submit" />
-        </form>
+          <Form.Button>Submit</Form.Button>
+        </Form>
         {this.state.error ? <h1> Try Again </h1> : null}
       </div>
     )

@@ -7,9 +7,8 @@ export default props => {
     <div>
       {d.zoning.map((zoning, i) => (
         <p key={`zoning-${i}`}>
-          <a href={`${zoning.link}`}>{zoning.code}</a> Zone
-          <br />
-          {zoning.description}
+          <a href={`${zoning.link}`}>{zoning.code}</a>
+          ({zoning.description})
         </p>
       ))}
     </div>

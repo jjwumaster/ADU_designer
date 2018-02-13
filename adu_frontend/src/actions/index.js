@@ -35,6 +35,38 @@ export const setMetrics = metrics => dispatch => {
   })
 }
 
+export const setAduArea = area => dispatch => {
+  dispatch({
+    type: "SET_ADU_AREA",
+    area
+  })
+}
+
+export const drawingControlOff = () => dispatch => {
+  dispatch({
+    type: "DRAWING_CONTROL_OFF"
+  })
+}
+
+export const drawingControlOn = () => dispatch => {
+  dispatch({
+    type: "DRAWING_CONTROL_ON"
+  })
+}
+
+export const setPolygon = polygon => dispatch => {
+  dispatch({
+    type: "SET_POLYGON",
+    polygon
+  })
+}
+
+export const removePolygon = () => dispatch => {
+  dispatch({
+    type: "REMOVE_POLYGON"
+  })
+}
+
 // link: https://www.portlandoregon.gov/bds/index.cfm?a=68689
 
 // setback rules: https://www.portlandoregon.gov/bps/index.cfm?&a=64609&c=36238

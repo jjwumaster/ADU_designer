@@ -8,8 +8,8 @@ import * as actions from "./actions"
 import rules from "./helpers/rules"
 
 class Searchbar extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       query: "",
       error: ""
@@ -40,11 +40,13 @@ class Searchbar extends React.Component {
   getData = id => {
     Promise.all([
       api.portland.query(id, "detail"),
-      api.portland.query(id, "assessor")
+      api.portland.query(id, "assessor"),
+      api.portland.query(id, "latlong")
     ]).then(values => {
       this.props.doneLoading()
       this.props.setProperty("detail", values[0])
       this.props.setProperty("assessor", values[1])
+      this.props.setProperty("latlong", values[2])
       this.setMetrics(this.props.property.detail, this.props.property.assessor)
     })
   }
@@ -95,10 +97,14 @@ class Searchbar extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  property: state.property,
-  suggestions: state.suggestions.list,
-  isLoading: state.suggestions.isLoading
-})
+const mapStateToProps = state => {
+  console.log(state.property)
+
+  return {
+    property: state.property,
+    suggestions: state.suggestions.list,
+    isLoading: state.suggestions.isLoading
+  }
+}
 
 export default withRouter(connect(mapStateToProps, actions)(Searchbar))

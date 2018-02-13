@@ -6,8 +6,10 @@ import { connect } from "react-redux"
 import Navbar from "./Navbar"
 import Results from "./Results"
 // import ArcMap from "./ArcMap"
-import Map from "./GoogleMap"
+import MapContainer from "./MapContainer"
 import { Progress } from "semantic-ui-react"
+import Home from "./Home"
+import Saved from "./Saved"
 
 const App = props => {
   return (
@@ -20,6 +22,13 @@ const App = props => {
           size="tiny"
         />
         <Switch>
+          <Route
+            exact
+            path="/"
+            render={routerProps => {
+              return <Home {...routerProps} />
+            }}
+          />
           <Route
             path="/login"
             render={routerProps => {
@@ -39,11 +48,17 @@ const App = props => {
             }}
           />
           <Route
+            path="/saved"
+            render={routerProps => {
+              return <Saved />
+            }}
+          />
+          <Route
             path="/map"
             render={routerProps => {
               return (
                 <div style={{ width: "100%", height: "400px" }}>
-                  <Map />
+                  <MapContainer />
                 </div>
               )
             }}

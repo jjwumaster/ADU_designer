@@ -2,8 +2,9 @@ import React from "react"
 import { connect } from "react-redux"
 import { Button } from "semantic-ui-react"
 import Overview from "./components/Overview"
-import Improvements from "./components/Improvements"
+// import Improvements from "./components/Improvements"
 import Dashboard from "./components/Dashboard"
+import MapContainer from "./MapContainer"
 import * as actions from "./actions"
 
 const Results = props => {
@@ -19,17 +20,20 @@ const Results = props => {
     }
   }
 
-  console.log("detail", d)
-  console.log("assessor", a)
-  console.log(props.metrics)
+  // console.log("detail", d)
+  // console.log("assessor", a)
+  // console.log(props.metrics)
+
+  // <Improvements /> // could be implemented as a pop-up
 
   return (
     <div>
       {shouldIRender() ? (
         <div>
           <Button>DESIGN YOUR ADU (NON FUNCTIONAL)</Button>
-          <Overview a={a} d={d} />
-          <Improvements a={a} />
+          <Overview />
+          <MapContainer />
+
           <Dashboard />
         </div>
       ) : null}
