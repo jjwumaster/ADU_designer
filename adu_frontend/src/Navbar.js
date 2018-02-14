@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom"
 import Searchbar from "./Searchbar"
 import { connect } from "react-redux"
 import { Menu } from "semantic-ui-react"
+import * as actions from "./actions"
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -12,10 +13,16 @@ class Navbar extends React.Component {
     }
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.loggedIn) {
+  //     this.setState({ loggedIn: true })
+  //   }
+  // }
+
   handleItemClick = (e, { name }) => {
     switch (name) {
       case "logout":
-        this.props.history.push("/")
+        this.props.logOut()
         break
       case "login":
         this.props.history.push("/login")
@@ -30,6 +37,7 @@ class Navbar extends React.Component {
   }
 
   render() {
+    console.log("logged in?", this.props.loggedIn)
     return (
       <Menu pointing secondary>
         <div
@@ -42,7 +50,7 @@ class Navbar extends React.Component {
           <Searchbar />
         </div>
 
-        {!!this.props.currentUser.id ? (
+        {this.props.loggedIn ? (
           <React.Fragment>
             <Menu.Item>
               Welcome back {`${this.props.currentUser.email}`}
@@ -89,7 +97,8 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.auth.currentUser
+  currentUser: state.auth.currentUser,
+  loggedIn: !!state.auth.currentUser.id
 })
 
-export default withRouter(connect(mapStateToProps, null)(Navbar))
+export default withRouter(connect(mapStateToProps, actions)(Navbar))

@@ -30,6 +30,9 @@ class Searchbar extends React.Component {
       })
     } else {
       this.getData(result.result.id)
+
+      // persist to the backend
+
       this.setState({ query: result.result.title })
       // add another horizontal loading bar to show API is loading--Semantic Progress
       this.props.startLoading()
@@ -57,6 +60,7 @@ class Searchbar extends React.Component {
     let livingArea = rules.livingArea(a.improvements.details)
     let lotSize = a.general.total_land_area_sqft
     let propertyType = a.improvements.improvement_type
+    let mainCoverage = rules.mainCoverage(a.improvements.details)
     let zone = d.zoning[0].code // iterate??
 
     let metrics = {
@@ -65,7 +69,8 @@ class Searchbar extends React.Component {
       lotSize,
       livingArea,
       detachedCoverage,
-      totalCoverage
+      totalCoverage,
+      mainCoverage
     }
 
     this.props.setMetrics(metrics)
@@ -98,8 +103,6 @@ class Searchbar extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.property)
-
   return {
     property: state.property,
     suggestions: state.suggestions.list,

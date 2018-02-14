@@ -69,7 +69,7 @@ const proper = str => {
 }
 
 const formatNum = num => {
-  return Intl.NumberFormat("en-USA").format(num)
+  return Intl.NumberFormat("en-USA").format(Math.round(num))
 }
 
 const ownerParse = str => {

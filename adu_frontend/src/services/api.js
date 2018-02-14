@@ -4,19 +4,19 @@ const HEADERS = {
   Accept: "application/json"
 }
 
-const login = (email, password) => {
+const login = data => {
   return fetch(`${API_ROOT}/auth/`, {
     method: "POST",
     headers: HEADERS,
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify(data)
   }).then(resp => resp.json())
 }
 
-const create = (email, password) => {
+const create = data => {
   return fetch(`${API_ROOT}/users/`, {
     method: "POST",
     headers: HEADERS,
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify(data)
   }).then(resp => resp.json())
 }
 
@@ -36,9 +36,21 @@ const query = (id, request) => {
   }).then(resp => resp.json())
 }
 
+const getWithToken = url => {
+  const token = localStorage.getItem("token")
+  return fetch(url, {
+    headers: { Authorization: token }
+  }).then(resp => resp.json())
+}
+
+const getCurrentUser = () => {
+  return getWithToken(`${API_ROOT}/current_user`)
+}
+
 export default {
   auth: {
-    login
+    login,
+    getCurrentUser
   },
   users: {
     create

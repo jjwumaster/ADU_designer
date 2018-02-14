@@ -16,7 +16,8 @@ export default (state = {}, action) => {
           lotSize: action.metrics.lotSize,
           livingArea: action.metrics.livingArea,
           detachedCoverage: action.metrics.detachedCoverage,
-          totalCoverage: action.metrics.totalCoverage
+          totalCoverage: action.metrics.totalCoverage,
+          mainCoverage: action.metrics.mainCoverage
         }
       }
     default:

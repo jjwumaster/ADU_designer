@@ -85,13 +85,13 @@ const goodType = propertyType => {
 
 // total lot coverage must meet zoning requirements
 const goodTotalCoverage = (zone, lotSize, totalCoverage) => {
-  return totalCoverage > allowableCoverage(zone, lotSize) ? false : true
+  return totalCoverage > allowableTotalCoverage(zone, lotSize) ? false : true
 }
 
-const allowableCoverage = (zone, lotSize) => {
+const allowableTotalCoverage = (zone, lotSize) => {
   switch (zones[zone]) {
     case "sfr":
-      return lotSize
+      return sfrCoverage(lotSize)
     case "mfr":
       return mfrZones[zone] * lotSize
     case "com":
@@ -136,6 +136,16 @@ const totalCoverage = improvements => {
   return total
 }
 
+const mainCoverage = improvements => {
+  let total = 0
+  for (let improvement of improvements) {
+    if (improvement.segment_type === "MAIN") {
+      total += improvement.area_sq_ft
+    }
+  }
+  return total
+}
+
 const livingArea = improvements => {
   let total = 0
   for (let improvement of improvements) {
@@ -146,12 +156,9 @@ const livingArea = improvements => {
   return total
 }
 
-const goodExistingCoverage = () => null
-
 // detached structure may not have more coverage than existing structure
-const existingStructureCoverage = existingStructureCoverage => {
-  return existingStructureCoverage
-}
+const goodExistingCoverage = (aduCoverage, mainCoverage) =>
+  aduCoverage < mainCoverage
 
 export default {
   goodZone,
@@ -159,8 +166,10 @@ export default {
   goodTotalCoverage,
   goodDetachedCoverage,
   goodExistingCoverage,
+  allowableTotalCoverage,
   totalCoverage,
   detachedCoverage,
+  mainCoverage,
   maximumArea,
   livingArea
 }

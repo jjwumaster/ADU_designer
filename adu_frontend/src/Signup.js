@@ -34,14 +34,20 @@ class Signup extends Component {
       this.state.fields.password === this.state.fields.password_confirmation
     ) {
       api.users
-        .create(this.state.fields.email, this.state.fields.password)
+        .create({
+          email: this.state.fields.email,
+          password: this.state.fields.password
+        })
         .then(resp => {
           if (resp.errors) {
             this.setState({
               errors: resp.errors
             })
           } else {
-            this.props.setUser(resp)
+            this.props.setUser({
+              email: this.state.fields.email,
+              password: this.state.fields.password
+            })
           }
         })
     } else {

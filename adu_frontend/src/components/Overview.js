@@ -1,5 +1,5 @@
 import React from "react"
-import { Segment } from "semantic-ui-react"
+import { Segment, Rating } from "semantic-ui-react"
 import Zoning from "./Zoning"
 import helpers from "../helpers/helpers"
 import { connect } from "react-redux"
@@ -21,6 +21,13 @@ const Overview = props => {
     <div>
       <Segment.Group horizontal compact>
         <Segment>
+          <Rating
+            icon="heart"
+            size="massive"
+            style={{ paddingTop: "15px", paddingLeft: "20px" }}
+          />
+        </Segment>
+        <Segment>
           <h2>{proper(general.address)}</h2>
           {proper(general.address2)}
         </Segment>
@@ -28,7 +35,7 @@ const Overview = props => {
           <h3>Living Area</h3> {formatNum(props.livingArea)} sq. ft.
         </Segment>
         <Segment>
-          <h3>Land Area</h3> {formatNum(general.total_land_area_acres)} acres /{" "}
+          <h3>Land Area</h3>
           {formatNum(general.total_land_area_sqft)} sq. ft.
         </Segment>
         <Segment>

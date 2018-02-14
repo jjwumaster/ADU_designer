@@ -1,10 +1,25 @@
-// import { api } from "../services"
+import api from "../services/api"
 
-export const setUser = user => dispatch => {
-  dispatch({ type: "SET_CURRENT_USER", user })
+export const setUser = (data, history) => dispatch => {
+  api.auth.login(data).then(user => {
+    if (user.error) {
+      // set a reducer on the user
+    } else {
+      localStorage.setItem("token", user.jwt)
+      dispatch({ type: "SET_CURRENT_USER", user })
+      history.push("/")
+    }
+  })
+}
+
+export const fetchUser = () => dispatch => {
+  api.auth.getCurrentUser().then(user => {
+    dispatch({ type: "SET_CURRENT_USER", user })
+  })
 }
 
 export const logOut = () => dispatch => {
+  localStorage.removeItem("token")
   dispatch({ type: "LOGOUT" })
 }
 
@@ -39,6 +54,12 @@ export const setAduArea = area => dispatch => {
   dispatch({
     type: "SET_ADU_AREA",
     area
+  })
+}
+
+export const clearAduArea = () => dispatch => {
+  dispatch({
+    type: "CLEAR_ADU_AREA"
   })
 }
 

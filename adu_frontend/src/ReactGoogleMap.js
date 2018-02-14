@@ -24,7 +24,7 @@ const ReactGoogleMap = compose(
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?key=AIzaSyAgPInxBQf-p63Pj_HBtuS2j_uoIYDK5WI&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `600px` }} />,
+    containerElement: <div style={{ height: `800px` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
@@ -38,13 +38,14 @@ const ReactGoogleMap = compose(
   }
 
   const handleClick = e => {
+    props.clearAduArea()
     props.setPolygon([])
     props.drawingControlOn()
   }
 
   return (
     <GoogleMap
-      defaultZoom={20}
+      defaultZoom={19}
       defaultCenter={new google.maps.LatLng(props.latitude, props.longitude)}
     >
       {props.drawingControl && ( // explain this logic

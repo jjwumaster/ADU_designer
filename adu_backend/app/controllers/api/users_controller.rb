@@ -6,7 +6,11 @@ class Api::UsersController < ApplicationController
   end
 
   def create
+
+    byebug
+
     @user = User.new(user_params)
+    @user.password = params[:password]
     if @user.valid?
       @user.save
       render json: @user, status: 200

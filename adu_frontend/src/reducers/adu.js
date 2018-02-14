@@ -9,6 +9,7 @@ export default (
       console.log(helpers.convertArea(action.area, "sq ft"))
       return { area: helpers.convertArea(action.area, "sq ft") }
     case "CLEAR_ADU_AREA":
+      console.log(helpers.convertArea(action.area, "sq ft"))
       return { area: 0 }
     case "DRAWING_CONTROL_ON":
       return { ...state, drawingControl: true }

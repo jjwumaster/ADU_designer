@@ -1,34 +1,38 @@
 import React from "react"
-import Login from "./Login"
-import Signup from "./Signup"
 import { Route, Switch } from "react-router-dom"
 import { connect } from "react-redux"
+import { Progress, Container } from "semantic-ui-react"
+// import ArcMap from "./ArcMap"
 import Navbar from "./Navbar"
 import Results from "./Results"
-// import ArcMap from "./ArcMap"
 import MapContainer from "./MapContainer"
-import { Progress } from "semantic-ui-react"
+import Login from "./Login"
+import Signup from "./Signup"
 import Home from "./Home"
 import Saved from "./Saved"
+import Design from "./Design"
 
 const App = props => {
   return (
     <div className="App">
       <Navbar />
-      <div className="ui container" id="content">
-        <Progress
-          percent={props.loadingBar.loading ? 5 : 100}
-          autoSuccess
-          size="tiny"
-        />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={routerProps => {
-              return <Home {...routerProps} />
-            }}
-          />
+
+      <Progress
+        percent={props.loadingBar.loading ? 5 : 100}
+        autoSuccess
+        size="tiny"
+      />
+
+      <Route
+        exact
+        path="/"
+        render={routerProps => {
+          return <Home {...routerProps} />
+        }}
+      />
+
+      <Switch>
+        <Container>
           <Route
             path="/login"
             render={routerProps => {
@@ -54,6 +58,12 @@ const App = props => {
             }}
           />
           <Route
+            path="/design"
+            render={routerProps => {
+              return <Design />
+            }}
+          />
+          <Route
             path="/map"
             render={routerProps => {
               return (
@@ -63,8 +73,8 @@ const App = props => {
               )
             }}
           />
-        </Switch>
-      </div>
+        </Container>
+      </Switch>
     </div>
   )
 }

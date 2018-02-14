@@ -30,19 +30,26 @@ class Login extends Component {
 
   handleLogin = e => {
     e.preventDefault()
-    api.auth
-      .login(this.state.fields.email, this.state.fields.password)
-      .then(resp => {
-        if (resp.error) {
-          this.setState({
-            error: true
-          })
-        } else {
-          this.props.setUser(resp)
-          this.props.history.push("/") // should this be moved to redux
-          console.log("Our user is", resp)
-        }
-      })
+    this.props.setUser(
+      {
+        email: this.state.fields.email,
+        password: this.state.fields.password
+      },
+      this.props.history
+    )
+    // api.auth
+    //   .login(this.state.fields.email, this.state.fields.password)
+    //   .then(resp => {
+    //     if (resp.error) {
+    //       this.setState({
+    //         error: true
+    //       })
+    //     } else {
+    //       this.props.setUser(resp)
+    //       this.props.history.push("/") // should this be moved to redux
+    //       console.log("Our user is", resp)
+    //     }
+    //   })
   }
 
   render() {
