@@ -9,7 +9,6 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      error: false,
       fields: {
         email: "",
         password: ""
@@ -53,7 +52,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log("this is Login state", this.state)
     return (
       <div>
         <div style={{ textAlign: "center" }}>
@@ -79,10 +77,14 @@ class Login extends Component {
           />
           <Form.Button>Submit</Form.Button>
         </Form>
-        {this.state.error ? <h1> Try Again </h1> : null}
+        <h2>{this.props.error}</h2>
       </div>
     )
   }
 }
 
-export default withRouter(connect(null, actions)(Login))
+const mapStateToProps = state => ({
+  error: state.auth.error
+})
+
+export default withRouter(connect(mapStateToProps, actions)(Login))

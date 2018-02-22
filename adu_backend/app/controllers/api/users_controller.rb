@@ -6,9 +6,6 @@ class Api::UsersController < ApplicationController
   end
 
   def create
-
-    byebug
-
     @user = User.new(user_params)
     @user.password = params[:password]
     if @user.valid?
@@ -17,6 +14,11 @@ class Api::UsersController < ApplicationController
     else
       render json: {errors: @user.errors.full_messages}, status: 200
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    render json: @user, status: 200
   end
 
   private

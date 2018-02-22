@@ -30,27 +30,31 @@ class Searchbar extends React.Component {
       })
     } else {
       this.getData(result.result.id)
-
-      // persist to the backend
-
-      this.setState({ query: result.result.title })
-      // add another horizontal loading bar to show API is loading--Semantic Progress
-      this.props.startLoading()
-      this.props.history.push("/results")
+      api
+        .createProperty({
+          portland_id: result.result.id,
+          address: result.result.title
+        })
+        .then(whatever => {
+          this.setState({ query: result.result.title })
+          this.props.startLoading()
+          this.props.history.push(`/results/${result.result.id}`)
+        })
     }
   }
 
   getData = id => {
+    this.props.setProperty("id", id)
     Promise.all([
       api.portland.query(id, "detail"),
       api.portland.query(id, "assessor"),
       api.portland.query(id, "latlong")
     ]).then(values => {
-      this.props.doneLoading()
       this.props.setProperty("detail", values[0])
       this.props.setProperty("assessor", values[1])
       this.props.setProperty("latlong", values[2])
       this.setMetrics(this.props.property.detail, this.props.property.assessor)
+      this.props.doneLoading()
     })
   }
 
@@ -80,7 +84,7 @@ class Searchbar extends React.Component {
     api.portland
       .suggest(this.state.query)
       .then(sugg => this.props.setSuggestions(sugg.candidates))
-  }, 150)
+  }, 200)
 
   // debounceTestHandler = debounce(() => console.log("HI"), 200)
 

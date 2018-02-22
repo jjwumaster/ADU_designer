@@ -4,6 +4,15 @@ import ReactGoogleMap from "./ReactGoogleMap"
 import * as actions from "./actions"
 
 class MapContainer extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    this.props.clearAduArea()
+    this.props.drawingControlOn()
+  }
+
   render() {
     return (
       <ReactGoogleMap

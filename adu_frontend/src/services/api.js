@@ -47,6 +47,50 @@ const getCurrentUser = () => {
   return getWithToken(`${API_ROOT}/current_user`)
 }
 
+const createProperty = data => {
+  return fetch(`${API_ROOT}/properties`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify(data)
+  })
+}
+
+const getProperty = id => {
+  return fetch(`${API_ROOT}/get_property`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify({ id })
+  })
+}
+
+const saveProperty = data => {
+  return fetch(`${API_ROOT}/save_property`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify(data)
+  })
+}
+
+const deleteProperty = data => {
+  return fetch(`${API_ROOT}/delete_property`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify(data)
+  })
+}
+
+const getUserProperties = userId => {
+  return fetch(`${API_ROOT}/users/${userId}`)
+}
+
+const isPropertySaved = data => {
+  return fetch(`${API_ROOT}/is_property_saved`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify(data)
+  })
+}
+
 export default {
   auth: {
     login,
@@ -55,6 +99,12 @@ export default {
   users: {
     create
   },
+  createProperty,
+  saveProperty,
+  deleteProperty,
+  getUserProperties,
+  getProperty,
+  isPropertySaved,
   portland: {
     suggest,
     query

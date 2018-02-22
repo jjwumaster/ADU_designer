@@ -1,9 +1,10 @@
 import React from "react"
-import { withRouter } from "react-router-dom"
+import { withRouter, Link } from "react-router-dom"
 import Searchbar from "./Searchbar"
 import { connect } from "react-redux"
-import { Menu } from "semantic-ui-react"
+import { Menu, Icon } from "semantic-ui-react"
 import * as actions from "./actions"
+import LoadingBar from "./LoadingBar"
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -37,9 +38,24 @@ class Navbar extends React.Component {
   }
 
   render() {
-    console.log("logged in?", this.props.loggedIn)
     return (
-      <Menu pointing secondary>
+      <Menu
+        pointing
+        secondary
+        style={{ paddingTop: "10px", margin: "0px", border: "0px" }}
+      >
+        <Link to="/">
+          <Icon
+            name="home"
+            size="big"
+            color="teal"
+            style={{
+              paddingTop: "15px",
+              paddingBottom: "10px",
+              paddingLeft: "20px"
+            }}
+          />
+        </Link>
         <div
           style={{
             paddingTop: "10px",
@@ -50,9 +66,9 @@ class Navbar extends React.Component {
           <Searchbar />
         </div>
 
-        {this.props.loggedIn ? (
+        {!!this.props.currentUser ? (
           <React.Fragment>
-            <Menu.Item>
+            <Menu.Item style={{ paddingBottom: "22px" }}>
               Welcome back {`${this.props.currentUser.email}`}
             </Menu.Item>
 
@@ -97,8 +113,7 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.auth.currentUser,
-  loggedIn: !!state.auth.currentUser.id
+  currentUser: state.auth.currentUser
 })
 
 export default withRouter(connect(mapStateToProps, actions)(Navbar))

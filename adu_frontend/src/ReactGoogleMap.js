@@ -46,7 +46,7 @@ const ReactGoogleMap = compose(
   return (
     <GoogleMap
       defaultZoom={19}
-      defaultCenter={new google.maps.LatLng(props.latitude, props.longitude)}
+      center={new google.maps.LatLng(props.latitude, props.longitude)}
     >
       {props.drawingControl && ( // explain this logic
         <DrawingManager
@@ -92,10 +92,12 @@ const ReactGoogleMap = compose(
   )
 })
 
-const mapStateToProps = state => ({
-  latitude: state.property.latlong.results[0].latitude,
-  longitude: state.property.latlong.results[0].longitude,
-  property: state.property
-})
+const mapStateToProps = state => {
+  return {
+    latitude: state.property.latlong.results[0].latitude,
+    longitude: state.property.latlong.results[0].longitude,
+    property: state.property
+  }
+}
 
 export default connect(mapStateToProps, actions)(ReactGoogleMap)

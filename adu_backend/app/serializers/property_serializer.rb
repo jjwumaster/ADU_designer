@@ -1,5 +1,6 @@
 class PropertySerializer < ActiveModel::Serializer
-  attributes :id, :name, :address, :city, :zip, :lat, :long
+  attributes :id, :portland_id, :address
   has_many :adus
-  belongs_to :user
+  has_many :user_properties
+  has_many :users, through: :user_properties
 end

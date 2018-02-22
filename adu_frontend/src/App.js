@@ -11,17 +11,15 @@ import Signup from "./Signup"
 import Home from "./Home"
 import Saved from "./Saved"
 import Design from "./Design"
+import FourOhFour from "./FourOhFour"
+import LoadingBar from "./LoadingBar"
 
 const App = props => {
   return (
     <div className="App">
       <Navbar />
 
-      <Progress
-        percent={props.loadingBar.loading ? 5 : 100}
-        autoSuccess
-        size="tiny"
-      />
+      <LoadingBar />
 
       <Route
         exact
@@ -71,6 +69,12 @@ const App = props => {
                   <MapContainer />
                 </div>
               )
+            }}
+          />
+          <Route
+            path="/404"
+            render={routerProps => {
+              return <FourOhFour />
             }}
           />
         </Container>

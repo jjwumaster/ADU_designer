@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :properties
+  has_many :user_properties
+  has_many :properties, through: :user_properties
   has_many :adus, through: :properties
 end

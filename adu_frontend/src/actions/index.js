@@ -3,7 +3,7 @@ import api from "../services/api"
 export const setUser = (data, history) => dispatch => {
   api.auth.login(data).then(user => {
     if (user.error) {
-      // set a reducer on the user
+      dispatch({ type: "LOGIN_ERROR", error: user.error })
     } else {
       localStorage.setItem("token", user.jwt)
       dispatch({ type: "SET_CURRENT_USER", user })
@@ -41,6 +41,14 @@ export const startLoading = () => dispatch => {
 
 export const doneLoading = () => dispatch => {
   dispatch({ type: "DONE_LOADING" })
+}
+
+export const resetLoadingBar = () => dispatch => {
+  dispatch({ type: "RESET_LOADING_BAR" })
+}
+
+export const increment = amount => dispatch => {
+  dispatch({ type: "INCREMENT", amount })
 }
 
 export const setMetrics = metrics => dispatch => {
@@ -85,6 +93,18 @@ export const setPolygon = polygon => dispatch => {
 export const removePolygon = () => dispatch => {
   dispatch({
     type: "REMOVE_POLYGON"
+  })
+}
+
+export const saveProperty = () => dispatch => {
+  dispatch({
+    type: "SAVE_PROPERTY"
+  })
+}
+
+export const deleteProperty = () => dispatch => {
+  dispatch({
+    type: "DELETE_PROPERTY"
   })
 }
 

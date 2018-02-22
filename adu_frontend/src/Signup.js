@@ -3,6 +3,7 @@ import api from "./services/api"
 import * as actions from "./actions"
 import { connect } from "react-redux"
 import { Form } from "semantic-ui-react"
+import { withRouter } from "react-router-dom"
 
 class Signup extends Component {
   constructor() {
@@ -44,10 +45,13 @@ class Signup extends Component {
               errors: resp.errors
             })
           } else {
-            this.props.setUser({
-              email: this.state.fields.email,
-              password: this.state.fields.password
-            })
+            this.props.setUser(
+              {
+                email: this.state.fields.email,
+                password: this.state.fields.password
+              },
+              this.props.history
+            )
           }
         })
     } else {
@@ -96,4 +100,4 @@ class Signup extends Component {
     )
   }
 }
-export default connect(null, actions)(Signup)
+export default withRouter(connect(null, actions)(Signup))
