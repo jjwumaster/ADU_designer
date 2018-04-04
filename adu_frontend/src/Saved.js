@@ -38,6 +38,7 @@ class Saved extends React.Component {
   }
 
   render() {
+    console.log("this is state", this.state)
     return (
       <div>
         {this.state.properties.length > 0 ? null : (
@@ -64,7 +65,11 @@ class Saved extends React.Component {
                           rating={1}
                         />{" "}
                       </Grid.Column>
-                      <Grid.Column width={13}>{property.address}</Grid.Column>
+                      <Grid.Column width={13}>
+                        <a href={`/results/` + property.portland_id}>
+                          {property.address}
+                        </a>
+                      </Grid.Column>
                     </Grid>
                   </Card.Header>
                 </Card.Content>
